@@ -1,6 +1,3 @@
-/Users/kingbrooks/Desktop/github/RyanB-P0/StoreApp/bin/Debug/net6.0/StoreAppLibrary.deps.json
-/Users/kingbrooks/Desktop/github/RyanB-P0/StoreApp/bin/Debug/net6.0/StoreAppLibrary.runtimeconfig.json
-/Users/kingbrooks/Desktop/github/RyanB-P0/StoreApp/bin/Debug/net6.0/StoreAppLibrary
 /Users/kingbrooks/Desktop/github/RyanB-P0/StoreApp/bin/Debug/net6.0/StoreApp
 /Users/kingbrooks/Desktop/github/RyanB-P0/StoreApp/bin/Debug/net6.0/StoreApp.deps.json
 /Users/kingbrooks/Desktop/github/RyanB-P0/StoreApp/bin/Debug/net6.0/StoreApp.runtimeconfig.json
