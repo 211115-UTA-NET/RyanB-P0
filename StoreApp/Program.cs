@@ -10,9 +10,10 @@ using StoreAppLibrary.Logic;
     */
 
 namespace StoreApp.App {
-    public class Program : Global {
+    public class Program : GlobalMethods {
         private static string? EntryName;
         private static int EntryNumber;
+        private static bool BackToMainMenu;
         static void Main(){
             // Console.WriteLine("Welcome To The Block\n\n What Store Do You Want?");
 
@@ -37,63 +38,79 @@ namespace StoreApp.App {
 
             List<FoodStore>? FoodRecords = ReadRecordsFromFoodStore("../FoodHistory");
             List<FoodStore>? ShoeRecords = ReadRecordsFromFoodStore("../ShoeHistory");
-            Console.WriteLine("Welcome To The Block\n\n What Store Do You Want?");
-            // while (EntryName == null || EntryName.Length <= 0)
+            // Console.WriteLine("\tWelcome To The Block\n\n\tWhat Store Do You Want?");
+            // // while (EntryName == null || EntryName.Length <= 0)
+            // // {
+            // // Thread.Sleep(3000);
+            // // EntryName = Console.ReadLine();
+            // // }
+            //   while (EntryName == null || EntryName.Length <= 0 )
             // {
-            // Thread.Sleep(3000);
-            // EntryName = Console.ReadLine();
+            //     Thread.Sleep(1000);
+            //     Console.Write("1.\t Food Store,\n2.\t Shoe Store\n");
+            //     EntryName = Console.ReadLine();
+            //     bool validchoice = int.TryParse(EntryName, out EntryNumber);
+            //     if (!validchoice || (EntryNumber > 4 && EntryNumber < 0) )
+            //     {
+            //         Console.WriteLine("Thats not the right store");
+            //         Console.WriteLine();
+            //         EntryName=null;
+            //         continue;
+            //     }
             // }
-              while (EntryName == null || EntryName.Length <= 0 )
-            {
-                Thread.Sleep(3000);
-                Console.Write("1.\t Food Store,\n2.\t Shoe Store\n");
-                EntryName = Console.ReadLine();
-                bool validchoice = int.TryParse(EntryName, out EntryNumber);
-                if (!validchoice || (EntryNumber > 4 && EntryNumber < 0) )
-                {
-                    Console.WriteLine("Thats not the right store");
-                    Console.WriteLine();
-                    EntryName=null;
-                    continue;
-                }
-            }
+            MainIntroDuction();
             //^^ local
             // int f =0;
             // UserStringToInt(EntryName, "1.\t Food Store,\n2.\t Shoe Store\n", 
-            // "Thats not the right store", f);
-            //^^ global
-            Stores store = new(EntryName);
+            // "Thats not the right store", EntryNumber);
+            // GlobalMethods a =new GlobalMethods();
+            // GlobalMethods.UserStringToInt();
+            // GlobalMethods.UserStringToInt(EntryName, "1.\t Food Store,\n2.\t Shoe Store\n", 
+            // "Thats not the right store", EntryNumber);
+            // GlobalMethods.UserStringToInt(EntryName, "1.\t Food Store,\n2.\t Shoe Store\n", 
+            // "Thats not the right store");
+            // GlobalMethods.UserStringToInt("1.\t Food Store,\n2.\t Shoe Store\n", 
+            // "Thats not the right store");
+            //^^ Global .. THE GLOBAL IDEA DOESNT WORK IN C# .NET
+            // Stores store = new(EntryName);
+            Stores store = new(GlobalChoose);
             Console.WriteLine(store.CustomerName);
-            Console.WriteLine(store.CustomerNumberChoice);
+            Console.WriteLine(store.CustomerActionNumber);
             Console.WriteLine(store.StoreName);
-            Console.WriteLine(EntryNumber);
-            //  while (true){
-            //     Console.WriteLine("======="); //skipping a line
-            //     Console.WriteLine("STOs COMIN'");
-            //     // Console.WriteLine("Play a round With RoBo? (y/n) ");
-            //     if(EntryNumber == 1){
-            //     // Console.WriteLine("Choose From Our Selection Here");
-            //     store.FoodStoreMarket();
-            //      Console.WriteLine(store.CustomerName);
-            // Console.WriteLine(store.CustomerNumberChoice);
-            // Console.WriteLine(store.StoreName);
-            // } else if(EntryNumber == 2){
-            //     // Console.WriteLine("What Are You Trying To Sell?");
-            //     store.ShoeStoreMarket();
-            //      Console.WriteLine(store.CustomerName);
-            // Console.WriteLine(store.CustomerNumberChoice);
-            // Console.WriteLine(store.StoreName);
-            // }
+            Console.WriteLine(store.CustomerFoodSelectionNumber);
+            // Console.WriteLine(EntryNumber);
+            Console.WriteLine(GlobalNumber);
+             while (true){
+                Console.WriteLine("======="); //skipping a line
+                Console.WriteLine("STOs COMIN'");
+                // Console.WriteLine("Play a round With RoBo? (y/n) ");
+                if(EntryNumber == 1){
+                // Console.WriteLine("Choose From Our Selection Here");
+                store.FoodStoreMarket();
+                 Console.WriteLine(store.CustomerName);
+            Console.WriteLine(store.CustomerActionNumber);
+            Console.WriteLine(store.StoreName);
+            Console.WriteLine(store.CustomerFoodSelectionNumber);
+            Console.WriteLine("");
+            break;
+            } else if(EntryNumber == 2){
+                // Console.WriteLine("What Are You Trying To Sell?");
+                store.ShoeStoreMarket();
+                 Console.WriteLine(store.CustomerName);
+            Console.WriteLine(store.CustomerActionNumber);
+            Console.WriteLine(store.StoreName);
+            break;
+            }
 
-            //     // string? Input = Console.ReadLine();
+                // string? Input = Console.ReadLine();
 
-            //     // if (Input?.ToLower() != "y" || Input == null) { 
-            //     //     Console.WriteLine("&&&& END OF GAME &&&&");
-            //     //     break; 
-            //     //     }
+                // if (Input?.ToLower() != "y" || Input == null) { 
+                //     Console.WriteLine("&&&& END OF GAME &&&&");
+                //     break; 
+                //     }
 
-            //     // game.PlayRound();
-            // }
+                // game.PlayRound();
+            }
         }
 
         // private static int ChooseAction(){
@@ -130,6 +147,34 @@ namespace StoreApp.App {
     catch (System.Exception)    {
         return null;
         } 
+    }
+
+    private static void MainIntroDuction(){
+        if(BackToMainMenu == false){
+        Console.WriteLine("\tWelcome To The Block\n\n\tWhat Store Do You Want?");
+        } else {
+            Console.WriteLine("\tWelcome Back To Da Block\n\n\tA New Store?");
+            Console.WriteLine("\tWelcome Back To Da Block\n\tA New Store?");
+        }
+            // while (EntryName == null || EntryName.Length <= 0)
+            // {
+            // Thread.Sleep(3000);
+            // EntryName = Console.ReadLine();
+            // }
+              while (EntryName == null || EntryName.Length <= 0 )
+            {
+                Thread.Sleep(1000);
+                Console.Write("1.\t Food Store,\n2.\t Shoe Store\n");
+                EntryName = Console.ReadLine();
+                bool validchoice = int.TryParse(EntryName, out EntryNumber);
+                if (!validchoice || (EntryNumber > 4 && EntryNumber < 0) )
+                {
+                    Console.WriteLine("Thats not the right store");
+                    Console.WriteLine();
+                    EntryName=null;
+                    continue;
+                }
+            }
     }
 
     }

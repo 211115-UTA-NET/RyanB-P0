@@ -7,9 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreAppLibrary", "StoreApp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreApp", "StoreApp\StoreApp.csproj", "{C7E97E05-2B8E-418D-B4D2-2F988F06AF98}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StoreAppLibrary", "StoreAppLibrary", "{33A9B9A2-28D5-405F-9B1C-69B6203FE3F3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreApp.Test", "StoreAppLibrary\StoreApp.Test\StoreApp.Test.csproj", "{A3BCD822-66CC-45DD-8955-3D34FBA57F35}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreApp.Test", "StoreApp.Test\StoreApp.Test.csproj", "{A3BCD822-66CC-45DD-8955-3D34FBA57F35}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

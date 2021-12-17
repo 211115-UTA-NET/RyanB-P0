@@ -1,8 +1,14 @@
+using System.Text;
 namespace StoreAppLibrary.Logic {
+    /// <summary>
+    ///This is for making a broad selection of products.
+    /// Can be specified to any product.
+    /// </summary>
+
     public class Product {
-        private string? Name {get; set;}
-        private string? Type {get; set;}
-        public decimal Price {get; set;}
+        internal string? Name {get; set;}
+        internal string? Type {get; set;}
+        internal decimal Price {get; set;}
 
         public Product() {
             Name = "Nuclear Waste";
@@ -14,6 +20,12 @@ namespace StoreAppLibrary.Logic {
             Name = name;
             Type = type;
             Price = price;
+        }
+
+        public override string ToString()
+        {
+            // return base.ToString();
+            return "Name: "+Name+" Type: "+Type+" Price: "+Price;
         }
     }
 }
