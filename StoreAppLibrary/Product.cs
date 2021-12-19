@@ -6,17 +6,24 @@ namespace StoreAppLibrary.Logic {
     /// </summary>
 
     public class Product {
+        internal int Quantity { get; set;}
+        //^^ quantity in total
         internal string? Name {get; set;}
         internal string? Type {get; set;}
         internal decimal Price {get; set;}
+        internal int ID {get; set;}
 
         public Product() {
+            ID = 0;
+            Quantity = 0;
             Name = "Nuclear Waste";
             Type = "Liquid";
             Price = 0.00M;
         } 
 
-        public Product(string name, string type, decimal price){
+        public Product(int id, int quantity, string name, string type, decimal price){
+            this.ID = id;
+            Quantity = quantity;
             Name = name;
             Type = type;
             Price = price;
@@ -25,7 +32,7 @@ namespace StoreAppLibrary.Logic {
         public override string ToString()
         {
             // return base.ToString();
-            return "Name: "+Name+" Type: "+Type+" Price: "+Price;
+            return "Quantity: "+Quantity+" Name: "+Name+" Type: "+Type+" Price: "+Price;
         }
     }
 }

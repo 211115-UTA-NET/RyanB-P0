@@ -11,6 +11,8 @@ using Xml = StoreApp.App.Serialization;
     if the stores name equals 'Food Store' write the history to "../FoodHistory.xml"
     if the stores name equals 'Shoe Store' write the history to "../ShoeHistory.xml"
 
+    -  CONFLICTING CERTAIN TYPE OF CODE IN C# REACT DIFFERENTLY 
+
 */
 
 namespace StoreAppLibrary.Logic {
@@ -40,11 +42,14 @@ namespace StoreAppLibrary.Logic {
         internal int CustomerActionNumber = 0;
         internal int CustomerFoodSelectionNumber = 0;
         internal bool BackToStoreMenu = false;
+        internal string? Choose = null;
     /*the stores constructor will take in the type of store they want and 
     each individual method will take the customer name, The Stores History
     after a customer makes a order the reciept is for the customer
     so there will be two seperate serialization
     */
+    // static int FoodList = FoodStoreInventory.FoodList.Count();
+  
         public Stores(string StoreName){
             this.StoreName = StoreName;
             // this.CustomerName = CustomerName;
@@ -59,12 +64,12 @@ namespace StoreAppLibrary.Logic {
                 MyName = Console.ReadLine();
                 this.CustomerName = MyName;
                 Console.WriteLine($"OH!! Welcome {CustomerName}, Here Is Yo' CHoices");
-                Console.WriteLine(" 1.\t Buy,\n 2.\t Sell\n 3.\t Look\n 4.\t Complain");
+                Console.WriteLine(" 0.\t Back To Main Menu,\n 1.\t Buy,\n 2.\t Sell\n 3.\t Look\n 4.\t Complain");
             } else {
                 Console.WriteLine($"Hey {CustomerName}, Is There Anything Else You Need?");
-                Console.WriteLine(" 1.\t Buy,\n 2.\t Sell\n 3.\t Look\n 4.\t Complain");
+                Console.WriteLine(" 0.\t Back To Main Menu,\n 1.\t Buy,\n 2.\t Sell\n 3.\t Look\n 4.\t Complain");
             }
-            string? Choose = null;
+            // string? Choose = null;
             // string? Choose = Console.ReadLine();
             int Customer=0;
             while (Choose == null || Choose.Length <= 0 )
@@ -79,6 +84,10 @@ namespace StoreAppLibrary.Logic {
                     Console.WriteLine();
                     Choose=null;
                     continue;
+                }
+                if(CustomerActionNumber == 0){
+                    Console.WriteLine("Back To Main Menu");
+                    break;
                 }
             }
             //^^ local
@@ -104,7 +113,7 @@ namespace StoreAppLibrary.Logic {
                 Console.WriteLine($"What Are You [{CustomerChoice}]ing For?");
             } else if(CustomerActionNumber == 4){
                 Console.WriteLine($"What Are You [{CustomerChoice}]ing About?");
-            }
+            } 
             // Console.WriteLine($"The Computer Move Was [{CPUChoice}]");
             // OurInventory(CustomerChoice);
             // YourRecipet(CustomerChoice);
@@ -134,59 +143,70 @@ namespace StoreAppLibrary.Logic {
                 // printFoodInventory(FOOD);
                 // FoodStoreInventory = FOOD.ToList();
                 // ShoppingList = FOOD.ToList();
-               Product A  = new Product("Yum Yum", "cat food", 10.00M);
-                Product B = new Product("Pasta", "carbohydrates", 20.00M);
-                Product C = new Product("Cake", "dessert", 7.99M);
-                Product D = new Product("Dragon Fruit", "Fruit", 5.99M);
-                Product E = new Product("Waffles", "Breakfast", 8.99M);
+                // Product A  = new Product(0, 1000, "Yum Yum", "cat food", 10.00M);
+                // Product B = new Product(0, 1000, "Pasta", "carbohydrates", 20.00M);
+                // Product C = new Product(0, 1000, "Cake", "dessert", 7.99M);
+                // Product D = new Product(0, 1000, "Dragon Fruit", "Fruit", 5.99M);
+                // Product E = new Product(0, 1000, "Waffles", "Breakfast", 8.99M);
                 // FoodStoreInventory.Add(A);
                 // FoodStoreInventory.ShoppingList.Add(A);
                 // FoodStoreInventory.ShoppingList.ToArray<FOOD>;
                 // FoodStoreInventory.FoodItems.ToArray(FOOD);
                 // List<Product> FOODList = new List<Product>(FOOD);
-                Console.WriteLine("\n1. 'Yum Yum', 'cat food', 10.00M\n2. 'Pasta', 'carbohydrates', 20.00M\n3. 'Cake', 'dessert', 7.99M\n4. 'Dragon Fruit', 'Fruit', 5.99M\n5. 'Waffles', 'Breakfast', 8.99M");
+                // Console.WriteLine("\n1. 'Yum Yum', 'cat food', 10.00M\n2. 'Pasta', 'carbohydrates', 20.00M\n3. 'Cake', 'dessert', 7.99M\n4. 'Dragon Fruit', 'Fruit', 5.99M\n5. 'Waffles', 'Breakfast', 8.99M");
+                FoodStoreInventory.ShowList();
+                // FoodStoreInventory.
                 string? Choose = null;
-                // int NewNumber = 0;
+                int NewNumber = 0;
                  while (Choose == null || Choose.Length <= 0 )
             {
                 Console.Write("What chu tryna eat? ");
                 Choose = Console.ReadLine();
-                bool validchoice = int.TryParse(Choose, out CustomerFoodSelectionNumber);
-                if (!validchoice || (CustomerFoodSelectionNumber > 5 || CustomerFoodSelectionNumber < 0) )
+                bool validchoice = int.TryParse(Choose, out NewNumber);
+                // if (!validchoice || (CustomerFoodSelectionNumber > 5 || CustomerFoodSelectionNumber < 0) )
+                if (!validchoice || (NewNumber > FoodStoreInventory.NumberOfFood() || NewNumber < 0) )
+                //                                                ^^ better to put amount of objects in foodlist
                 {
                     Console.WriteLine("We Dont Have That.. TRY AGAIN!!");
                     Console.WriteLine();
                     Choose=null;
                     continue;
                 }
-              
-                if(CustomerFoodSelectionNumber == 1){
-                    FoodStoreInventory.ShoppingList.Add(A);
-                } else if(CustomerFoodSelectionNumber == 2){
-                    FoodStoreInventory.ShoppingList.Add(B);
-                } else if(CustomerFoodSelectionNumber == 3){
-                    FoodStoreInventory.ShoppingList.Add(C);
-                }  else if(CustomerFoodSelectionNumber == 4){
-                    FoodStoreInventory.ShoppingList.Add(D);
-                } else if(CustomerFoodSelectionNumber == 5){
-                    FoodStoreInventory.ShoppingList.Add(E);
-                }
+                // if(validchoice){
+                // FoodStoreInventory.TakeFood(CustomerActionNumber, FoodStoreInventory.ShoppingList);
+                // }
+                // if(CustomerFoodSelectionNumber == 1){
+                //     FoodStoreInventory.ShoppingList.Add(A);
+                // } else if(CustomerFoodSelectionNumber == 2){
+                //     FoodStoreInventory.ShoppingList.Add(B);
+                // } else if(CustomerFoodSelectionNumber == 3){
+                //     FoodStoreInventory.ShoppingList.Add(C);
+                // }  else if(CustomerFoodSelectionNumber == 4){
+                //     FoodStoreInventory.ShoppingList.Add(D);
+                // } else if(CustomerFoodSelectionNumber == 5){
+                //     FoodStoreInventory.ShoppingList.Add(E);
+                // }
                 /*
                     In C# code runs from top to bottom in order. so the if statement 
                     was stopping the logic up top
                 */
                   if(validchoice){
-                    Choose = null;
                     string? input = null;
-                    printFoodInventory(FoodStoreInventory);
+                    FoodStoreInventory.TakeFood(NewNumber, FoodStoreInventory.ShoppingList);
+                    Choose = null;
+                    NewNumber = 0;
+                    // printFoodInventory(FoodStoreInventory);
+                    //^^ NOT USING THIS RIGHT NOW 12/18/21
                     Console.WriteLine("Do you want more before you buy? (Y/N)\nPress Anything else To Go Back");
                     input = Console.ReadLine();
                     if(input?.ToUpper() == "N"){
+                        // FoodStoreInventory.CheckOut();
                         break;
                     } else if(input?.ToUpper() == "Y"){
                         continue;
                     } else {
                         BackToStoreMenu = true;
+                        Choose = null;
                         IntroDuction();
                     }
                 }

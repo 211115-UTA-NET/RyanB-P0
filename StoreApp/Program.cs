@@ -58,7 +58,9 @@ namespace StoreApp.App {
             //         continue;
             //     }
             // }
+            if(EntryName == null){
             MainIntroDuction();
+            }
             //^^ local
             // int f =0;
             // UserStringToInt(EntryName, "1.\t Food Store,\n2.\t Shoe Store\n", 
@@ -80,9 +82,9 @@ namespace StoreApp.App {
             Console.WriteLine(store.CustomerFoodSelectionNumber);
             // Console.WriteLine(EntryNumber);
             Console.WriteLine(GlobalNumber);
-             while (true){
-                Console.WriteLine("======="); //skipping a line
-                Console.WriteLine("STOs COMIN'");
+            //  while (true){
+                Console.WriteLine("==================="); //skipping a line
+                Console.WriteLine("===================");
                 // Console.WriteLine("Play a round With RoBo? (y/n) ");
                 if(EntryNumber == 1){
                 // Console.WriteLine("Choose From Our Selection Here");
@@ -91,15 +93,44 @@ namespace StoreApp.App {
             Console.WriteLine(store.CustomerActionNumber);
             Console.WriteLine(store.StoreName);
             Console.WriteLine(store.CustomerFoodSelectionNumber);
-            Console.WriteLine("");
-            break;
+            BackToMainMenu = true;
+            EntryName = null;
+            // MainIntroDuction();
+            //Need better logic because the method does loop back but it ends the program
+            //^^ dont call this back but make a if statmetn back to the original "MainIntroDuction()"
+            // Console.WriteLine("Anythinng Else You Need");
+            // string? Choose = null;
+            // int 
+            //    while (Choose == null || Choose.Length <= 0 )
+            // {
+                 
+            //     Thread.Sleep(1000);
+            //     Console.Write("1.\t Food Store,\n2.\t Shoe Store\n");
+            //     Choose = Console.ReadLine();
+            //     bool validchoice = int.TryParse(Choose, out EntryNumber);
+            //     if (!validchoice || (EntryNumber > 4 && EntryNumber < 0) )
+            //     {
+            //         Console.WriteLine("Thats not the right store");
+            //         Console.WriteLine();
+            //         Choose=null;
+            //         continue;
+            //     }
+            // }
+            // break;
             } else if(EntryNumber == 2){
                 // Console.WriteLine("What Are You Trying To Sell?");
                 store.ShoeStoreMarket();
                  Console.WriteLine(store.CustomerName);
             Console.WriteLine(store.CustomerActionNumber);
             Console.WriteLine(store.StoreName);
-            break;
+             BackToMainMenu = true;
+             EntryName = null;
+            // MainIntroDuction();
+            //^^ dont call this back but make a if statmetn back to the original "MainIntroDuction()"
+            // break;
+            } else if(EntryNumber == 3){
+                Console.WriteLine("YOu Left The Block");
+                // break;
             }
 
                 // string? Input = Console.ReadLine();
@@ -110,7 +141,7 @@ namespace StoreApp.App {
                 //     }
 
                 // game.PlayRound();
-            }
+            // }
         }
 
         // private static int ChooseAction(){
@@ -154,7 +185,7 @@ namespace StoreApp.App {
         Console.WriteLine("\tWelcome To The Block\n\n\tWhat Store Do You Want?");
         } else {
             Console.WriteLine("\tWelcome Back To Da Block\n\n\tA New Store?");
-            Console.WriteLine("\tWelcome Back To Da Block\n\tA New Store?");
+            // Console.WriteLine("\nLeave The Block?");
         }
             // while (EntryName == null || EntryName.Length <= 0)
             // {
@@ -164,7 +195,7 @@ namespace StoreApp.App {
               while (EntryName == null || EntryName.Length <= 0 )
             {
                 Thread.Sleep(1000);
-                Console.Write("1.\t Food Store,\n2.\t Shoe Store\n");
+                Console.Write(" 0.\t To Leave The Block\n 1.\t Food Store\n2.\t Shoe Store\n3.\t To Leave The Block");
                 EntryName = Console.ReadLine();
                 bool validchoice = int.TryParse(EntryName, out EntryNumber);
                 if (!validchoice || (EntryNumber > 4 && EntryNumber < 0) )
@@ -174,6 +205,20 @@ namespace StoreApp.App {
                     EntryName=null;
                     continue;
                 }
+                // if(validchoice){
+                //     EntryName = null;
+                //     EntryNumber = 0;
+                //     string? input = null;
+                //     //print all customer reciepts
+                //     Console.WriteLine("\nLeave The Block? (Y/N)");
+                //     input = Console.ReadLine();
+                //     if(input?.ToLower() == "y"){
+                //         break;
+                //     } else {
+                //         BackToMainMenu = false;
+                //         continue;
+                //     }
+                // }
             }
     }
 
