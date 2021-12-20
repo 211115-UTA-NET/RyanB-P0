@@ -23,7 +23,7 @@ This will not change the array object (you cannot insert items into to arrays, a
 */
 
 namespace StoreAppLibrary.Logic {
-    public class FoodStoreInventory : StoreInterface {
+    public class FoodStoreInventory : ShoppingCart, StoreInterface  {
         private List<Product[]> FoodItems {get; set;}
         private List<Product> _ShoppingList;
         public List<Product> ShoppingList {get{
@@ -32,6 +32,13 @@ namespace StoreAppLibrary.Logic {
             return _ShoppingList;
         } set{
             this._ShoppingList = value;
+        }}
+        private List<Product> _CustomerOwnedItems;
+        public List<Product> CustomerOwnedItems {get{
+           //ITEMS THAT THE CUSTOMER BOUGHT
+            return _CustomerOwnedItems;
+        } set{
+            this._CustomerOwnedItems = value;
         }}
         private String _Name;
         private String _Type;
@@ -67,21 +74,59 @@ namespace StoreAppLibrary.Logic {
                 Product D = new Product("Dragon Fruit", "Fruit", 5.99M);
                 Product E = new Product("Waffles", "Breakfast", 8.99M);
         */
-        public IEnumerable<Product> FoodList {
-            get {
-                yield return new Product {ID = 1, Quantity = 1000, Name = "Cookies",  Type="Desserts", Price=10.00M};
-                yield return new Product {ID = 2, Quantity = 1000, Name = "Pasta",  Type="carbohydrates", Price=30.00M};
-                yield return new Product {ID = 3, Quantity = 1000, Name = "Cake",  Type="Desserts", Price=7.99M};
-                yield return new Product {ID = 4, Quantity = 1000, Name = "Dragon Fruit",  Type="Fruit", Price=5.99M};
-                yield return new Product {ID = 5, Quantity = 1000, Name = "Waffles",  Type="Breakfast", Price=9.99M};
-            }
-        }
+        // private IEnumerable<Product> _FoodList;
+        private List<Product> _FoodList;
+        private bool BackToStoreMenu = false;
+        private string CustomerName;
+        internal int CustomerActionNumber = 0;
+        internal int CustomerFoodSelectionNumber = 0;
+        // public IEnumerable<Product> FoodList {
+        //     get {
+        //         yield return new Product {ID = 1, Quantity = 1000, Name = "Cookies",  Type="Desserts", Price=10.00M};
+        //         yield return new Product {ID = 2, Quantity = 1000, Name = "Pasta",  Type="carbohydrates", Price=30.00M};
+        //         yield return new Product {ID = 3, Quantity = 1000, Name = "Cake",  Type="Desserts", Price=7.99M};
+        //         yield return new Product {ID = 4, Quantity = 1000, Name = "Dragon Fruit",  Type="Fruit", Price=5.99M};
+        //         yield return new Product {ID = 5, Quantity = 1000, Name = "Waffles",  Type="Breakfast", Price=9.99M};
+        //     }
+        //     set {
+        //         this._FoodList = value;
+        //     }
+        // }
+    //    public List<Product> FoodList {
+    //         get {
+    //             return _FoodList;
+    //         }
+    //         set {
+    //             this._FoodList = value;
+    //         }
+    //     }
+        public List<Product> FoodList = new List<Product>{
+            new Product(1, 1000, "Cookies", "Desserts", 10.00M),
+            new Product(2, 1000, "Pasta", "carbohydrates", 30.00M),
+            new Product(3, 1000, "Cake", "Desserts", 7.99M),
+            new Product(4, 1000, "Dragon Fruit", "Fruit", 5.99M),
+            new Product(5, 1000, "Waffles", "Breakfast", 9.99M),
+        };
         // public int NumberOfItems {get{
         //     return FoodList.Count
         // }}
+            //    public void ShowList(){
+            // var ItemsList = new FoodStoreInventory();
+            // foreach(Product Item in ItemsList.FoodList){
+            //     Console.WriteLine("We Got' " + Item);
+            // }
                public void ShowList(){
-            var ItemsList = new FoodStoreInventory();
-            foreach(Product Item in ItemsList.FoodList){
+                   //^^ might envolve the records as a parameter
+                //    FoodList.Add(new Product(1, 1000, "Cookies", "Desserts", 10.00M));
+                //    FoodList.Add(new Product(2, 1000, "Pasta", "carbohydrates", 30.00M));
+                //    FoodList.Add(new Product(3, 1000, "Cake", "Desserts", 7.99M));
+                //    FoodList.Add(new Product(4, 1000, "Dragon Fruit", "Fruit", 5.99M));
+                //    FoodList.Add(new Product(4, 1000, "Waffles", "Breakfast", 9.99M));
+            // var ItemsList = new FoodStoreInventory();
+            // foreach(Product Item in ItemsList.FoodList){
+            //     Console.WriteLine("We Got' " + Item);
+            // }
+            foreach(Product Item in FoodList){
                 Console.WriteLine("We Got' " + Item);
             }
             
@@ -103,8 +148,141 @@ namespace StoreAppLibrary.Logic {
 
 // public void TakeFood(IEnumerable<Product> product, List<Product> CustomerList){
 public void TakeFood(int Selection, List<Product> CustomerList){
-    //                  ^^^ changing to int or double
-    //if the name is the same as the customer item than you plus one that items quantity
+    //if the name is the same as the customer item than you plus one that items quantity (DONE)
+    //substract from quantity if customer has the item or not
+    //if customer doenst have the item add the entire item as is (DONE)
+    // var l = product.GetEnumerator().Current.Quantity;
+    // var l = product.GetEnumerator().Current.Quantity;
+
+    //      IDEAS
+    // create ids for each product and have user put in a number and check if number matches that id
+    //^^ than thats their product than look at the quantity subsstract from it
+    //^^^ than check to see if user have that whole item, if customer doesnt add whole item
+    //^^^^ if they dont add quantity
+    Product? SelectedItem = null;
+    //   foreach (var item in ShoppingList)
+    // //adding to the list
+    // {
+    //     Product? UpdatedItem = null;
+    //     // Console.WriteLine(ShoppingList);
+    //     //^^ not showing when nothing is added
+    //     if(Selection == item.ID && item.Quantity >= 1){
+    //         Console.WriteLine("I Have SOmething in here");
+    //         item.Quantity += 1;
+    //         UpdatedItem = item;
+    //     } else {
+    //         Console.WriteLine("I Have Nothing In here");
+    //     }
+    //         Console.WriteLine(item);
+    //     //THE ITEM .... NOT THE LIST
+      
+    // }
+    // List<Product> FoodListTOLIST = FoodList.ToList();
+    //^ not sure if its working
+  
+//   var newlist = FoodList.Select(point => {
+//         point.Quantity = 1;
+//         return point;
+//     }).ToList();
+    //^^ works but might be a better way
+    
+    // foreach (var item in FoodList)
+    // //for the list here
+    // {
+    //     // FoodList.ForEach(a => a.Quantity -= 1);
+    //     //^^ not here
+    // if(Selection == item.ID){
+    //     // FoodList.ForEach(a => a.Quantity -= 1);
+    //     //^^ not here
+    //     if(CustomerList.Contains(item)){
+    //         FoodList.ForEach(a => {
+    //         if(a.ID == item.ID){
+    //             item.Quantity -= 1;
+    //         }
+    //         });
+    //         // item.Quantity += 1;
+    //         // SelectedItem = item;
+    //          CustomerList.ForEach(d => {
+    //         if(d.ID == item.ID){
+    //             // item.Quantity += 1;
+    //             d.Quantity += 1;
+    //         }
+    //     });
+    //     } else {
+    //     FoodList.ForEach(a => {
+    //         if(a.ID == item.ID){
+    //             item.Quantity -= 1;
+    //         }
+    //         });
+    //             // item.Quantity += 1;
+    //     // item.Quantity = 1;
+    //     CustomerList.ForEach(d => {
+    //         if(d.ID == item.ID){
+                
+    //             // d.Quantity += 1;
+    //             // SelectedItem = item;
+    //         }
+    //     });
+    //             // item.Quantity = 1;
+    //             SelectedItem = item;
+    //     CustomerList.Add(SelectedItem);
+    //     Console.WriteLine("NEW ITEM");
+        
+    //     }
+    //     // FoodList.ForEach(a => a.Quantity -= 1);
+    //     //^^ not here
+            
+    // }
+    
+    //     Console.WriteLine(item);
+    // }
+    //  FoodList.ForEach(a => {
+    //             // Console.WriteLine(a);
+    //         if(a.ID == Selection){
+    //             a.Quantity -= 1;
+    //             SelectedItem = 
+    //         }
+    //         });
+    //             // item.Quantity += 1;
+    //     // item.Quantity = 1;
+    //     CustomerList.ForEach(d => {
+    //             Console.WriteLine(d);
+    //         if(d.ID == Selection){
+    //             // d.Quantity += 1;
+    //             // SelectedItem = d;
+    //         }
+    //     });
+    FoodList.Where(w => w.ID == Selection).ToList().ForEach( x => {
+        if(CustomerList.Contains(x)){
+            x.Quantity += 1;
+            FoodList.ForEach(c => {
+                if(c.ID == Selection){
+                    c.Quantity -= 1;
+                }
+            });
+        } else {
+            SelectedItem = x;
+        }
+    });
+                // item.Quantity = 1;
+                // SelectedItem = item;
+        CustomerList.Add(SelectedItem);
+        Console.WriteLine("NEW ITEM");
+    Console.WriteLine(SelectedItem);
+    // List<Product> NewItem = FoodList.ToList();
+    Console.WriteLine("==============");
+    // ShoppingList.Add(NewItem);
+    // ShoppingList.Add(SelectedItem);
+    // Console.WriteLine(ShoppingList);
+    Console.WriteLine(CustomerList);
+    foreach(var item in ShoppingList){
+        Console.WriteLine(item);
+    }
+   
+   
+}
+public void RemoveFood(int Selection, List<Product> CustomerList){
+    //if the name is the same as the customer item than you plus one that items quantity (DONE)
     //substract from quantity if customer has the item or not
     //if customer doenst have the item add the entire item as is
     // var l = product.GetEnumerator().Current.Quantity;
@@ -116,34 +294,63 @@ public void TakeFood(int Selection, List<Product> CustomerList){
     //^^^ than check to see if user have that whole item, if customer doesnt add whole item
     //^^^^ if they dont add quantity
     Product? SelectedItem = null;
+    //   foreach (var item in ShoppingList)
+    // //adding to the list
+    // {
+    //     Product? UpdatedItem = null;
+    //     // Console.WriteLine(ShoppingList);
+    //     //^^ not showing when nothing is added
+    //     if(Selection == item.ID && item.Quantity >= 1){
+    //         Console.WriteLine("I Have SOmething in here");
+    //         item.Quantity += 1;
+    //         UpdatedItem = item;
+    //     } else {
+    //         Console.WriteLine("I Have Nothing In here");
+    //     }
+    //         Console.WriteLine(item);
+    //     //THE ITEM .... NOT THE LIST
+      
+    // }
+    // List<Product> FoodListTOLIST = FoodList.ToList();
+    //^ not sure if its working
+  
+//   var newlist = FoodList.Select(point => {
+//         point.Quantity = 1;
+//         return point;
+//     }).ToList();
+    //^^ works but might be a better way
+    
     foreach (var item in FoodList)
     //for the list here
     {
-    // var Selection = product.GetEnumerator().Current.ID;
-    // var StoreStock = ShoppingList.GetEnumerator().Current.ID;
-    // if(Selection == product)
-
-    // var Selection = Selection.GetEnumerator().Current.ID;
-    // var StoreStock = ShoppingList.GetEnumerator().Current.ID;
-    
     if(Selection == item.ID){
+        if(CustomerList.Contains(item)){
+            item.Quantity += 1;
+            // SelectedItem = item;
+        } else {
+        item.Quantity = 1;
         SelectedItem = item;
+        Console.WriteLine("NEW ITEM");
+        CustomerList.Add(SelectedItem);
+        }
+        
+    } else {
+        Console.WriteLine("You Got this item already");
     }
-    // Console.WriteLine(item);
         
     }
     Console.WriteLine(SelectedItem);
     // List<Product> NewItem = FoodList.ToList();
     Console.WriteLine("==============");
-    // CustomerList.Add(SelectedItem);
+    Console.WriteLine(FoodList);
     // ShoppingList.Add(NewItem);
-    ShoppingList.Add(SelectedItem);
-    Console.WriteLine(ShoppingList);
-    //  foreach (var item in ShoppingList)
-    // //adding to the list
-    // {
-    //     Console.WriteLine()
-    // }
+    // ShoppingList.Add(SelectedItem);
+    // Console.WriteLine(ShoppingList);
+    Console.WriteLine(CustomerList);
+    foreach(var item in ShoppingList){
+        Console.WriteLine(item);
+    }
+   
 }
         public FoodStoreInventory(){
             FoodItems = new List<Product[]>();
@@ -195,6 +402,23 @@ public void TakeFood(int Selection, List<Product> CustomerList){
             }
             ShoppingList.Clear();
             return Description;
+        }
+         public void IntroDuction(bool BackToStoreMenu){
+            
+            string? MyName = null;
+            
+            if(BackToStoreMenu == false){
+                Console.WriteLine($"AYE!! What was ya name again? I got short term memory");
+                MyName = Console.ReadLine();
+                this.CustomerName = MyName;
+                Console.WriteLine($"OH!! Welcome {CustomerName}, Here Is Yo' CHoices");
+                Console.WriteLine($" 0.\t Back To Main Menu,\n 1.\t {(CustomerChoice)(0)},\n 2.\t {(CustomerChoice)(1)}\n 3.\t {(CustomerChoice)(2)}\n 4.\t {(CustomerChoice)(3)}\n");
+            } else {
+                Console.WriteLine($"Hey {CustomerName}, Is There Anything Else You Need?");
+                Console.WriteLine($" 0.\t Back To Main Menu,\n 1.\t {(CustomerChoice)(0)},\n 2.\t {(CustomerChoice)(1)}\n 3.\t {(CustomerChoice)(2)}\n 4.\t {(CustomerChoice)(3)}\n");
+                // MyName = Console.ReadLine();
+            }
+        
         }
     }
 }
