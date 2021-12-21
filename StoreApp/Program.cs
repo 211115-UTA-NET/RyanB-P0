@@ -14,7 +14,7 @@ namespace StoreApp.App {
         private static string? EntryName;
         private static int EntryNumber;
         private static bool BackToMainMenu;
-        static void Main(){
+        public static void Main(){
             // Console.WriteLine("Welcome To The Block\n\n What Store Do You Want?");
 
             // int action = ChooseAction();
@@ -38,26 +38,52 @@ namespace StoreApp.App {
 
             List<FoodStore>? FoodRecords = ReadRecordsFromFoodStore("../FoodHistory");
             List<FoodStore>? ShoeRecords = ReadRecordsFromFoodStore("../ShoeHistory");
-            // Console.WriteLine("\tWelcome To The Block\n\n\tWhat Store Do You Want?");
-            // // while (EntryName == null || EntryName.Length <= 0)
-            // // {
-            // // Thread.Sleep(3000);
-            // // EntryName = Console.ReadLine();
-            // // }
-            //   while (EntryName == null || EntryName.Length <= 0 )
+        //     if(BackToMainMenu == false){
+        // Console.WriteLine("\tWelcome To The Block\n\n\tWhat Store Do You Want?");
+        // } else {
+        //     Console.WriteLine("\tWelcome Back To Da Block\n\n\tA New Store?");
+        //     // Console.WriteLine("\nLeave The Block?");
+        // }
+            // while (EntryName == null || EntryName.Length <= 0)
             // {
-            //     Thread.Sleep(1000);
-            //     Console.Write("1.\t Food Store,\n2.\t Shoe Store\n");
-            //     EntryName = Console.ReadLine();
-            //     bool validchoice = int.TryParse(EntryName, out EntryNumber);
-            //     if (!validchoice || (EntryNumber > 4 && EntryNumber < 0) )
-            //     {
-            //         Console.WriteLine("Thats not the right store");
-            //         Console.WriteLine();
-            //         EntryName=null;
-            //         continue;
-            //     }
+            // Thread.Sleep(3000);
+            // EntryName = Console.ReadLine();
             // }
+            FIRSTLOOP:{
+                    if(BackToMainMenu == false){
+        Console.WriteLine("\tWelcome To The Block\n\n\tWhat Store Do You Want?");
+        } else {
+            Console.WriteLine("\tWelcome Back To Da Block\n\n\tA New Store?");
+            // Console.WriteLine("\nLeave The Block?");
+        }
+              while (EntryName == null || EntryName.Length <= 0 )
+            {
+                Thread.Sleep(1000);
+                Console.Write(" 0.\t To Leave The Block\n 1.\t Food Store\n2.\t Shoe Store\n3.\t To Leave The Block");
+                EntryName = Console.ReadLine();
+                bool validchoice = int.TryParse(EntryName, out EntryNumber);
+                if (!validchoice || (EntryNumber > 4 && EntryNumber < 0) )
+                {
+                    Console.WriteLine("Thats not the right store");
+                    Console.WriteLine();
+                    EntryName=null;
+                    continue;
+                }
+                // if(validchoice){
+                //     EntryName = null;
+                //     EntryNumber = 0;
+                //     string? input = null;
+                //     //print all customer reciepts
+                //     Console.WriteLine("\nLeave The Block? (Y/N)");
+                //     input = Console.ReadLine();
+                //     if(input?.ToLower() == "y"){
+                //         break;
+                //     } else {
+                //         BackToMainMenu = false;
+                //         continue;
+                //     }
+                // }
+            
             if(EntryName == null){
             MainIntroDuction();
             }
@@ -74,8 +100,8 @@ namespace StoreApp.App {
             // GlobalMethods.UserStringToInt("1.\t Food Store,\n2.\t Shoe Store\n", 
             // "Thats not the right store");
             //^^ Global .. THE GLOBAL IDEA DOESNT WORK IN C# .NET
-            // Stores store = new(EntryName);
-            Stores store = new(GlobalChoose);
+            Stores store = new(EntryName);
+            // Stores store = new(GlobalChoose);
             Console.WriteLine(store.CustomerName);
             Console.WriteLine(store.CustomerActionNumber);
             Console.WriteLine(store.StoreName);
@@ -96,6 +122,7 @@ namespace StoreApp.App {
             BackToMainMenu = true;
             EntryName = null;
             // MainIntroDuction();
+            goto FIRSTLOOP;
             //Need better logic because the method does loop back but it ends the program
             //^^ dont call this back but make a if statmetn back to the original "MainIntroDuction()"
             // Console.WriteLine("Anythinng Else You Need");
@@ -142,6 +169,8 @@ namespace StoreApp.App {
 
                 // game.PlayRound();
             // }
+            }
+            }
         }
 
         // private static int ChooseAction(){

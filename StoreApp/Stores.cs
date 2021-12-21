@@ -171,7 +171,8 @@ namespace StoreAppLibrary.Logic {
             // YourRecipet(CustomerChoice);
             if(validchoice){
                 
-                 Choose = null;
+                //  Choose = null;
+                //^^ DONT MAKE THE PREVIOUS STRING NULL
              if(CustomerNUmber == 1){
                  Console.WriteLine(Choose);
                  Console.WriteLine($"What Would You Like To {CustomerChoice}?");
@@ -180,18 +181,18 @@ namespace StoreAppLibrary.Logic {
                  if(Records == null){
                 Console.WriteLine($"YOUR AT THE {StoreName}, Check Out Our Food");
                 //USE THE FOOD STORE INVENTORY WHEN RECORDS IS NULL START
-              
+              B:{
                 FoodStoreInventory.ShowList();
                 // FoodStoreInventory.
                 string? FoodChoice = null;
-                int NewNumber = 0;
+                int FoodNumberChoice = 0;
                  while (FoodChoice == null || FoodChoice.Length <= 0 )
             {
                 Console.Write("What chu tryna eat? ");
                 FoodChoice = Console.ReadLine();
-                bool Confirmchoice = int.TryParse(FoodChoice, out NewNumber);
+                bool Confirmchoice = int.TryParse(FoodChoice, out FoodNumberChoice);
                 // if (!validchoice || (CustomerFoodSelectionNumber > 5 || CustomerFoodSelectionNumber < 0) )
-                if (!Confirmchoice || (NewNumber > FoodStoreInventory.NumberOfFood() || NewNumber < 0) )
+                if (!Confirmchoice || (FoodNumberChoice > FoodStoreInventory.NumberOfFood() || FoodNumberChoice < 0) )
                 //                                                ^^ better to put amount of objects in foodlist
                 {
                     Console.WriteLine("We Dont Have That.. TRY AGAIN!!\n");
@@ -216,36 +217,74 @@ namespace StoreAppLibrary.Logic {
                     In C# code runs from top to bottom in order. so the if statement 
                     was stopping the logic up top
                 */
-                  if(Confirmchoice){
+                string? QuantityString = null;
+                // Console.WriteLine("How many items do you want");
+                int QuantityNumber = 0;
+                      while (QuantityString == null || QuantityString.Length <= 0 )
+            {
+                Console.WriteLine("How many items do you want");
+                QuantityString = Console.ReadLine();
+                bool Quantitychoice = int.TryParse(QuantityString, out QuantityNumber);
+                // if (!validchoice || (CustomerFoodSelectionNumber > 5 || CustomerFoodSelectionNumber < 0) )
+                if (!Quantitychoice || (QuantityNumber > FoodStoreInventory.QuantityOfFood(QuantityNumber) || QuantityNumber < 0) )
+                //                                                ^^ better to put amount of objects in foodlist
+                {
+                    Console.WriteLine("We Dont Have That.. TRY AGAIN!!\n");
+                    QuantityString=null;
+                    continue;
+                }
+            
+                //   if(Confirmchoice){
+                  if(Quantitychoice){
                     //   Choose = null;
-                      FoodChoice = null;
+                    //   FoodChoice = null;
+                    //^^ DONT MAKE THE PREVIOUS STRING NULL
                     string? input = null;
-                    FoodStoreInventory.TakeFood(NewNumber, FoodStoreInventory.ShoppingList);
+                    // FoodStoreInventory.TakeFood(NewNumber, FoodStoreInventory.ShoppingList);
+                    // FoodStoreInventory.TakeFood(QuantityNumber, FoodStoreInventory.ShoppingList);
+                    // FoodStoreInventory.TakeFood(FoodNumberChoice, QuantityNumber, FoodStoreInventory.ShoppingList);
+                    FoodStoreInventory.TakeFood(FoodNumberChoice, QuantityNumber);
                     // FoodStoreInventory.TakeFood(NewNumber);
                     // printFoodInventory(FoodStoreInventory);
                     //^^ NOT USING THIS RIGHT NOW 12/18/21
                     Console.WriteLine("Do you want more before you buy? (Y/N)\nPress Anything else To Go Back");
                     input = Console.ReadLine();
                     if(input?.ToUpper() == "N"){
-                        input = null;
-                        NewNumber = 0;
-                        // FoodStoreInventory.CheckOut();
-                        break;
+                        Console.WriteLine("NO RAN");
+                        // input = null;
+                        // FoodNumberChoice = 0;
+                        // QuantityNumber = 0;
+                        FoodStoreInventory.CheckOut();
+                        // break;
                     } else if(input?.ToUpper() == "Y"){
+                        Console.WriteLine("YES RAN");
                         input = null;
-                         NewNumber = 0;
-                        continue;
+                        // FoodChoice = null;
+                        //^^ the string matter since im using those in my while statement 
+                        //^^^ better to use labels and the goto keyword
+                        //  FoodNumberChoice = 0;
+                        //  QuantityNumber = 0;
+                        // continue;
+                        goto B;
                     } else {
-                        NewNumber = 0;
+                        Console.WriteLine("SOMETHING ELSE RAN");
+                        // FoodNumberChoice = 0;
+                        FoodChoice = null;
+                        //^^ the string matter since im using those in my while statement 
+                        // QuantityNumber = 0;
                         // BackToStoreMenu = true;
                         input = null;
                         
                         // IntroDuction();
                         FoodStoreInventory.IntroDuction(true);
+                        //^^ SHOWING THE INTRO TEXT AGAIN
                         goto A;
+                        //^^ PROPERLY GOING TO THE START OF MY FIRST WHILE LOOP
                     }
                 }
             }
+            }
+              }
                 printFoodInventory(FoodStoreInventory);
                 Console.WriteLine("\nYOUR ORDER DESCRIPTION\n");
                 Console.WriteLine(FoodStoreInventory);

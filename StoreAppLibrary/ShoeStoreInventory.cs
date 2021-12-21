@@ -19,14 +19,15 @@ namespace StoreAppLibrary.Logic {
         //     //^^ possible for employee to randomly react or make new logic for employee
         // }
 
-        public decimal CheckOut(){
+        // public decimal CheckOut(){
+        public void CheckOut(){
             decimal totalCost = 0;
             foreach (var item in ShoppingList)
             {
                 totalCost += item.Price;    
             }
             ShoppingList.Clear();
-            return totalCost;
+            // return totalCost;
         }
     }
 }
