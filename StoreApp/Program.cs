@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Xml.Serialization;
 using StoreAppLibrary.Logic;
-
+using System.Data.SqlClient;
     /* ========== NOTES ==========
     the stores constructor will take in the type of store they want and 
     each individual method will take the customer name, The Stores History
@@ -10,13 +10,15 @@ using StoreAppLibrary.Logic;
     */
 
 namespace StoreApp.App {
-    public class Program : GlobalMethods {
+    public class Program {
         private static string? EntryName;
         private static int EntryNumber;
         private static bool BackToMainMenu;
+         private string ConnectionString = File.ReadAllText("/Users/kingbrooks/desktop/ProjectZero.rtf"); 
         public static void Main(){
             // Console.WriteLine("Welcome To The Block\n\n What Store Do You Want?");
-
+        // SqlConnection();
+        
             // int action = ChooseAction();
 
             // while (action != 0)
@@ -107,7 +109,7 @@ namespace StoreApp.App {
             Console.WriteLine(store.StoreName);
             Console.WriteLine(store.CustomerFoodSelectionNumber);
             // Console.WriteLine(EntryNumber);
-            Console.WriteLine(GlobalNumber);
+            // Console.WriteLine(GlobalNumber);
             //  while (true){
                 Console.WriteLine("==================="); //skipping a line
                 Console.WriteLine("===================");
@@ -180,6 +182,18 @@ namespace StoreApp.App {
         //     return choice;
         // }
 
+public void SQLConnection(){
+    using SqlConnection TheBlockDatabase = new(ConnectionString);
+    // TheBlockDatabase.
+    string commandText = "SELECT * FoodStore";
+    SqlCommand command = new(commandText, TheBlockDatabase);
+    using SqlDataReader reader = command.ExecuteReader();
+    while (reader.Read()){
+        int ID = reader.GetInt32(0);
+        string name = reader.GetString(1);
+        Console.WriteLine($"\"{ID}\" with {name}");
+    }
+}
     private static List<FoodStore>? ReadRecordsFromFoodStore(string FilePath){
         XmlSerializer Serializer = new(typeof(List<Serialization.Inventory>));
     try{

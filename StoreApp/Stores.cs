@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 // using StoreAppLibrary.Logic;
 using Xml = StoreApp.App.Serialization;
+using System.Data.SqlClient;
 
 /* ============== NOTES ==============
     if the stores name equals 'Food Store' write the history to "../FoodHistory.xml"
@@ -16,7 +17,7 @@ using Xml = StoreApp.App.Serialization;
 */
 
 namespace StoreAppLibrary.Logic {
-    public class Stores : GlobalMethods {
+    public class Stores {
         List<FoodStore>? FoodStoreHistory = new List<FoodStore>();
         //^^ FOR XML FILE
         // List<FoodStoreInventory>? FoodStoreInventory = new List<FoodStoreInventory>();
@@ -25,6 +26,7 @@ namespace StoreAppLibrary.Logic {
         List<ShoeStore>? ShoeStoreHistory = new List<ShoeStore>();
         //^^ FOR XML FILE
         List<ShoeStoreInventory>? ShoeStoreInventory = new List<ShoeStoreInventory>();
+        private string ConnectionString = File.ReadAllText("/Users/kingbrooks/desktop/ProjectZero.rtf"); 
         //^^ FOR INVENTORY OF PRODUCTS
 
         // private readonly StoreInterface Employee;
@@ -132,10 +134,10 @@ namespace StoreAppLibrary.Logic {
             // IntroDuction();
             FoodStoreInventory.IntroDuction(false);
        var EnumLength = Enum.GetNames(typeof(CustomerChoice)).Length;
-            string? Choose = null;
+            A:{
+                string? Choose = null;
             // string? Choose = Console.ReadLine();
             int CustomerNUmber=0;
-            A:{
             while (Choose == null || Choose.Length <= 0 )
             {
                 
@@ -287,7 +289,8 @@ namespace StoreAppLibrary.Logic {
               }
                 printFoodInventory(FoodStoreInventory);
                 Console.WriteLine("\nYOUR ORDER DESCRIPTION\n");
-                Console.WriteLine(FoodStoreInventory);
+                // Console.WriteLine(FoodStoreInventory);
+                // Console.WriteLine(FoodStoreInventory.ShoppingList);
                 // FoodStoreInventory list = new FoodStoreInventory(FOOD);
                 //USE THE FOOD STORE INVENTORY WHEN RECORDS IS NULL END
                  } else {
@@ -330,15 +333,15 @@ namespace StoreAppLibrary.Logic {
             this.StoreName = "Shoe Store";
         //    IntroDuction();
         FoodStoreInventory.IntroDuction(false);
-            if(GlobalNumber == 0){
-                Console.WriteLine("Choose From Our Selection Here");
-            } else if(GlobalNumber == 1){
-                Console.WriteLine("What Are You Trying To Sell?");
-            } else if(GlobalNumber == 2){
-                Console.WriteLine("What Are You Looking at?");
-            } else if(GlobalNumber == 3){
-                Console.WriteLine("What Are You Complaining about??");
-            }
+            // if(GlobalNumber == 0){
+            //     Console.WriteLine("Choose From Our Selection Here");
+            // } else if(GlobalNumber == 1){
+            //     Console.WriteLine("What Are You Trying To Sell?");
+            // } else if(GlobalNumber == 2){
+            //     Console.WriteLine("What Are You Looking at?");
+            // } else if(GlobalNumber == 3){
+            //     Console.WriteLine("What Are You Complaining about??");
+            // }
 
         }
 
@@ -348,6 +351,19 @@ namespace StoreAppLibrary.Logic {
                 Console.WriteLine("Food " + item);
             }
         }
+
+public void SQLConnection(){
+    using SqlConnection TheBlockDatabase = new(ConnectionString);
+    // TheBlockDatabase.
+    string commandText = "SELECT * FoodStore";
+    SqlCommand command = new(commandText, TheBlockDatabase);
+    using SqlDataReader reader = command.ExecuteReader();
+    while (reader.Read()){
+        int ID = reader.GetInt32(0);
+        string name = reader.GetString(1);
+        Console.WriteLine($"\"{ID}\" with {name}");
+    }
+}
     }
 }
 
