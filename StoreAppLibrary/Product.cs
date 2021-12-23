@@ -13,6 +13,8 @@ namespace StoreAppLibrary.Logic {
         internal decimal Price {get; set;}
         internal int ID {get; set;}
 
+        public DateTime Date;
+
         public Product() {
             ID = 0;
             Quantity = 0;
@@ -20,13 +22,13 @@ namespace StoreAppLibrary.Logic {
             Type = "Liquid";
             Price = 0.00M;
         } 
-
         public Product(int id, int quantity, string name, string type, decimal price){
             this.ID = id;
             Quantity = quantity;
             Name = name;
             Type = type;
             Price = price;
+
         }
 
         public override string ToString()

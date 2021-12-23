@@ -91,6 +91,9 @@
       },
       "System.Security.Principal.Windows/4.7.0": {},
       "StoreAppLibrary/1.0.0": {
+        "dependencies": {
+          "System.Data.SqlClient": "4.8.3"
+        },
         "runtime": {
           "StoreAppLibrary.dll": {}
         }

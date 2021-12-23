@@ -1,6 +1,6 @@
 namespace StoreAppLibrary.Logic{
     public class FoodStore {
-        private CustomerChoice Customer { get; }
+        public CustomerChoice Customer { get; }
         private StoreInventory Inventory { get; }
 
         /*
@@ -11,7 +11,7 @@ namespace StoreAppLibrary.Logic{
         // private List<Product>? ShoppingList {get; set;}
         //^^ using the interface instead of putting it here
         //^^ 
-        private DateTime Date { get; }
+        public DateTime Date { get; }
         // public TransactionResult Result => ConfirmTransaction(Customer, Inventory);
         //^^ old one
         public TransactionResult Result => ConfirmTransaction(Customer);
@@ -28,10 +28,30 @@ namespace StoreAppLibrary.Logic{
         // }
         //^^ old one
         public FoodStore(DateTime date, CustomerChoice customer){
+            //^^ using food store to record customer transaction
+            //^^ maybe not
             this.Date = date;
             this.Customer = customer;
             // this.Inventory = inventory;
         }
+        public FoodStore(){
+            //^^ using food store to record customer transaction
+            //^^ maybe not
+            this.Date = new DateTime();
+            this.Customer = new CustomerChoice();
+            // this.Inventory = inventory;
+        }
+        // internal int Quantity { get; set;}
+        // //^^ quantity in total
+        // internal string? Name {get; set;}
+        // internal string? Type {get; set;}
+        // internal decimal Price {get; set;}
+        // internal int ID {get; set;}
+        // public FoodStore(DateTime date, int ID, int Quantity, string Name, string Type, decimal Price, CustomerChoice customer = 0){
+        //     this.Date = date;
+        //     this.Customer = customer;
+        //     this.Inventory = {ID; Quantity}
+        // }
 
         // private static TransactionResult ConfirmTransaction(CustomerChoice Customer, StoreInventory Inventory){
         //     return (Customer, Inventory) switch {

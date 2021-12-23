@@ -10,8 +10,9 @@ The null-coalescing operator ?? returns the value
 of its left-hand operand if it isn't null; 
 */
 
+// namespace StoreApp.App.Serialization{
 namespace StoreApp.App.Serialization{
-    public class Inventory {
+    public class StoreUpdate {
         [XmlAttribute]
         public DateTime OrderDate {get; set;}
         public string? InventoryChange {get; set;}
@@ -19,7 +20,7 @@ namespace StoreApp.App.Serialization{
         public string? Result {get; set;}
 
         public FoodStore CreateOrder(){
-           var customer = (CustomerChoice)Enum.Parse(typeof(CustomerChoice), CustomerChange ?? throw new InvalidOperationException("Player Move Cant Be Null"));
+           var customer = (CustomerChoice)Enum.Parse(typeof(CustomerChoice), CustomerChange ?? throw new InvalidOperationException("Customer Cant Be Null"));
            /*An enumeration type (or enum type) is a value 
            type defined by a set of named constants of the 
            underlying integral numeric type.

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 // using StoreAppLibrary.Logic;
+// using Xml = StoreApp.App.Serialization;
 using Xml = StoreApp.App.Serialization;
 using System.Data.SqlClient;
 
@@ -19,19 +20,21 @@ using System.Data.SqlClient;
 namespace StoreAppLibrary.Logic {
     public class Stores {
         List<FoodStore>? FoodStoreHistory = new List<FoodStore>();
+        List<FoodStoreInventory>? FoodStoreInventoryHistory = new List<FoodStoreInventory>();
         //^^ FOR XML FILE
         // List<FoodStoreInventory>? FoodStoreInventory = new List<FoodStoreInventory>();
         FoodStoreInventory FoodStoreInventory = new FoodStoreInventory();
         //^^ FOR INVENTORY OF PRODUCTS
+        FoodStore FoodStore = new FoodStore();
         List<ShoeStore>? ShoeStoreHistory = new List<ShoeStore>();
         //^^ FOR XML FILE
         List<ShoeStoreInventory>? ShoeStoreInventory = new List<ShoeStoreInventory>();
-        private string ConnectionString = File.ReadAllText("/Users/kingbrooks/desktop/ProjectZero.rtf"); 
+        // private string ConnectionString = File.ReadAllText("/Users/kingbrooks/desktop/ProjectZero.rtf"); 
         //^^ FOR INVENTORY OF PRODUCTS
 
         // private readonly StoreInterface Employee;
-        // private XmlSerializer Serializer { get; } = new(typeof(List<Xml.Inventory>));
-        private string _StoreName;
+        private XmlSerializer Serializer { get; } = new(typeof(List<Xml.StoreUpdate>)); 
+        private string? _StoreName;
         public string StoreName {
             get {
                 return _StoreName;
@@ -40,7 +43,7 @@ namespace StoreAppLibrary.Logic {
                 this._StoreName = value;
             }
         }
-        internal string CustomerName;
+        internal string? CustomerName;
         internal int CustomerActionNumber = 0;
         internal int CustomerFoodSelectionNumber = 0;
         internal bool BackToStoreMenu = false;
@@ -124,7 +127,9 @@ namespace StoreAppLibrary.Logic {
           
         // }
         
-        
+         List<FoodStore>? FoodRecords = ReadOrdersFromFoodStore("../FoodHistory.xml");
+        //  List<FoodStoreInventory>? FoodInventoryRecords = ReadOrdersFromFoodStore("../FoodInventoryHistory.xml");
+            // List<ShoeStoreInventory>? ShoeRecords = ReadOrderFromShoeStore("../ShoeHistory");
         public void FoodStoreMarket(List<FoodStore>? Records = null){
             //                                ^^^ this shold display the updated inventory when not null
             if(Records != null){
@@ -257,6 +262,13 @@ namespace StoreAppLibrary.Logic {
                         // FoodNumberChoice = 0;
                         // QuantityNumber = 0;
                         FoodStoreInventory.CheckOut();
+                        AddFoodCheckOutResult(CustomerChoice);
+                        //^^ different
+                        // FoodStoreInventory foodStoreInventory = new(DateTime.Now, )
+                        FoodStoreInventory.FoodSummary();
+                        // WriteOrdersToFile(FoodStoreInventory, "../FoodHistory.xml");
+                        WriteOrdersToFile(FoodStore, "../FoodHistory.xml");
+                        //                                          ^^^ FoodHistory
                         // break;
                     } else if(input?.ToUpper() == "Y"){
                         Console.WriteLine("YES RAN");
@@ -287,11 +299,7 @@ namespace StoreAppLibrary.Logic {
             }
             }
               }
-                printFoodInventory(FoodStoreInventory);
-                Console.WriteLine("\nYOUR ORDER DESCRIPTION\n");
-                // Console.WriteLine(FoodStoreInventory);
-                // Console.WriteLine(FoodStoreInventory.ShoppingList);
-                // FoodStoreInventory list = new FoodStoreInventory(FOOD);
+              
                 //USE THE FOOD STORE INVENTORY WHEN RECORDS IS NULL END
                  } else {
                      Console.WriteLine("Here Is Our Updated Inventory");
@@ -345,25 +353,82 @@ namespace StoreAppLibrary.Logic {
 
         }
 
-        private void printFoodInventory(FoodStoreInventory inventory){
-            foreach (var item in inventory.ShoppingList)
-            {
-                Console.WriteLine("Food " + item);
-            }
+        private void AddFoodCheckOutResult(CustomerChoice Customer){
+            var CheckOutResult = new FoodStore(DateTime.Now, Customer);
+            FoodStoreHistory.Add(CheckOutResult);
+            Console.WriteLine($"This is your order history{CheckOutResult.Result}");
         }
 
-public void SQLConnection(){
-    using SqlConnection TheBlockDatabase = new(ConnectionString);
-    // TheBlockDatabase.
-    string commandText = "SELECT * FoodStore";
-    SqlCommand command = new(commandText, TheBlockDatabase);
-    using SqlDataReader reader = command.ExecuteReader();
-    while (reader.Read()){
-        int ID = reader.GetInt32(0);
-        string name = reader.GetString(1);
-        Console.WriteLine($"\"{ID}\" with {name}");
+// public void SQLConnection(){
+//     using SqlConnection TheBlockDatabase = new(ConnectionString);
+//     // TheBlockDatabase.
+//     string commandText = "SELECT * FoodStore";
+//     SqlCommand command = new(commandText, TheBlockDatabase);
+//     using SqlDataReader reader = command.ExecuteReader();
+//     while (reader.Read()){
+//         int ID = reader.GetInt32(0);
+//         string name = reader.GetString(1);
+//         Console.WriteLine($"\"{ID}\" with {name}");
+//     }
+// }
+  public string SerializeAsXml()
+        {
+            var XmlOrder = new List<Xml.StoreUpdate>();
+
+            // foreach (FoodStoreInventory order in CustomerOwnedItems)
+            foreach (FoodStore store in FoodStoreHistory)
+            {
+                XmlOrder.Add(new Xml.StoreUpdate
+                {
+                    OrderDate = store.Date,
+                    CustomerChange = store.Customer.ToString()
+                });
+            }
+
+            var StringWriter = new StringWriter();
+            Serializer.Serialize(StringWriter, XmlOrder);
+            StringWriter.Close();
+            // return DateTime.Now+StringWriter.ToString();
+            return StringWriter.ToString();
+        }
+ private void WriteOrdersToFile(FoodStore store, string FilePath){
+        /*      ^^^^^^ this write is to FoodHistory
+        Use the static modifier to declare a static 
+        member, which belongs to the type itself 
+        rather than to a specific object. 
+        */
+        // string AlmostXML = store.SerializeAsXml();
+        
+        File.WriteAllText(FilePath, SerializeAsXml());
+        }
+  private static List<FoodStore>? ReadOrdersFromFoodStore(string FilePath){
+        XmlSerializer Serializer = new(typeof(List<Xml.StoreUpdate>));
+    try{
+       using StreamReader Reader = new(FilePath);
+        //  List<Record> Records = (List<Record>?)Serializer.Deserializer(Reader);
+         var Orders = (List<Xml.StoreUpdate>?)Serializer.Deserialize(Reader);
+          if (Orders is null) throw new InvalidDataException();
+                return Orders.Select(X => X.CreateOrder()).ToList();
     }
-}
+    catch (System.Exception)
+    {
+        
+        return null;
+    } 
+        }
+    // private static List<ShoeStoreInventory>? ReadOrderFromShoeStore(string FilePath){
+    //     XmlSerializer Serializer = new(typeof(List<Serialization.Inventory>));
+    // try {
+    //         using StreamReader Reader = new(FilePath);
+    //             //  List<Record> Records = (List<Record>?)Serializer.Deserializer(Reader);
+    //             var Records = (List<Serialization.Inventory>?)Serializer.Deserialize(Reader);
+    //             if (Records is null) throw new InvalidDataException();
+    //             return Records.Select(x => x.CreateOrder()).ToList();
+    //     }
+    // catch (System.Exception)    {
+    //     return null;
+    //     } 
+    // }
     }
 }
 

@@ -14,7 +14,7 @@ namespace StoreApp.App {
         private static string? EntryName;
         private static int EntryNumber;
         private static bool BackToMainMenu;
-         private string ConnectionString = File.ReadAllText("/Users/kingbrooks/desktop/ProjectZero.rtf"); 
+        //  private string ConnectionString = File.ReadAllText("/Users/kingbrooks/desktop/ProjectZero.rtf"); 
         public static void Main(){
             // Console.WriteLine("Welcome To The Block\n\n What Store Do You Want?");
         // SqlConnection();
@@ -38,8 +38,8 @@ namespace StoreApp.App {
             // decimal total = F.CheckOut();
             // Console.WriteLine("Yo Output IS "+total);
 
-            List<FoodStore>? FoodRecords = ReadRecordsFromFoodStore("../FoodHistory");
-            List<FoodStore>? ShoeRecords = ReadRecordsFromFoodStore("../ShoeHistory");
+            List<FoodStore>? FoodRecords = ReadOrdersFromFoodStore("../FoodHistory.xml");
+            // List<ShoeStore>? ShoeRecords = ReadOrdersFromShoeStore("../ShoeHistory");
         //     if(BackToMainMenu == false){
         // Console.WriteLine("\tWelcome To The Block\n\n\tWhat Store Do You Want?");
         // } else {
@@ -116,11 +116,12 @@ namespace StoreApp.App {
                 // Console.WriteLine("Play a round With RoBo? (y/n) ");
                 if(EntryNumber == 1){
                 // Console.WriteLine("Choose From Our Selection Here");
-                store.FoodStoreMarket();
-                 Console.WriteLine(store.CustomerName);
-            Console.WriteLine(store.CustomerActionNumber);
-            Console.WriteLine(store.StoreName);
-            Console.WriteLine(store.CustomerFoodSelectionNumber);
+                store.FoodStoreMarket(FoodRecords);
+            //      Console.WriteLine(store.CustomerName);
+            // Console.WriteLine(store.CustomerActionNumber);
+            // Console.WriteLine(store.StoreName);
+            // Console.WriteLine(store.CustomerFoodSelectionNumber);
+
             BackToMainMenu = true;
             EntryName = null;
             // MainIntroDuction();
@@ -182,26 +183,35 @@ namespace StoreApp.App {
         //     return choice;
         // }
 
-public void SQLConnection(){
-    using SqlConnection TheBlockDatabase = new(ConnectionString);
-    // TheBlockDatabase.
-    string commandText = "SELECT * FoodStore";
-    SqlCommand command = new(commandText, TheBlockDatabase);
-    using SqlDataReader reader = command.ExecuteReader();
-    while (reader.Read()){
-        int ID = reader.GetInt32(0);
-        string name = reader.GetString(1);
-        Console.WriteLine($"\"{ID}\" with {name}");
-    }
-}
-    private static List<FoodStore>? ReadRecordsFromFoodStore(string FilePath){
-        XmlSerializer Serializer = new(typeof(List<Serialization.Inventory>));
+// public void SQLConnection(){
+//     using SqlConnection TheBlockDatabase = new(ConnectionString);
+//     // TheBlockDatabase.
+//     string commandText = "SELECT * FoodStore";
+//     SqlCommand command = new(commandText, TheBlockDatabase);
+//     using SqlDataReader reader = command.ExecuteReader();
+//     while (reader.Read()){
+//         int ID = reader.GetInt32(0);
+//         string name = reader.GetString(1);
+//         Console.WriteLine($"\"{ID}\" with {name}");
+//     }
+// // }
+//  private static void WriteRecordsToFile(FoodStoreInventory store, string FilePath){
+//         /*      ^^^^^^
+//         Use the static modifier to declare a static 
+//         member, which belongs to the type itself 
+//         rather than to a specific object. 
+//         */
+//         string AlmostXML = store.SerializeAsXml();
+//         File.WriteAllText(FilePath, AlmostXML);
+//         }
+    private static List<FoodStore>? ReadOrdersFromFoodStore(string FilePath){
+        XmlSerializer Serializer = new(typeof(List<Serialization.StoreUpdate>));
     try{
        using StreamReader Reader = new(FilePath);
         //  List<Record> Records = (List<Record>?)Serializer.Deserializer(Reader);
-         var Records = (List<Serialization.Inventory>?)Serializer.Deserialize(Reader);
-          if (Records is null) throw new InvalidDataException();
-                return Records.Select(x => x.CreateOrder()).ToList();
+         var Orders = (List<Serialization.StoreUpdate>?)Serializer.Deserialize(Reader);
+          if (Orders is null) throw new InvalidDataException();
+                return Orders.Select(x => x.CreateOrder()).ToList();
     }
     catch (System.Exception)
     {
@@ -209,19 +219,19 @@ public void SQLConnection(){
         return null;
     } 
         }
-    private static List<FoodStore>? ReadRecordsFromShoeStore(string FilePath){
-        XmlSerializer Serializer = new(typeof(List<Serialization.Inventory>));
-    try {
-            using StreamReader Reader = new(FilePath);
-                //  List<Record> Records = (List<Record>?)Serializer.Deserializer(Reader);
-                var Records = (List<Serialization.Inventory>?)Serializer.Deserialize(Reader);
-                if (Records is null) throw new InvalidDataException();
-                return Records.Select(x => x.CreateOrder()).ToList();
-        }
-    catch (System.Exception)    {
-        return null;
-        } 
-    }
+    // private static List<ShoeStore>? ReadOrdersFromShoeStore(string FilePath){
+    //     XmlSerializer Serializer = new(typeof(List<Serialization.StoreUpdate>));
+    // try {
+    //         using StreamReader Reader = new(FilePath);
+    //             //  List<Record> Records = (List<Record>?)Serializer.Deserializer(Reader);
+    //             var Orders = (List<Serialization.StoreUpdate>?)Serializer.Deserialize(Reader);
+    //             if (Orders is null) throw new InvalidDataException();
+    //             return Orders.Select(x => x.CreateOrder()).ToList();
+    //     }
+    // catch (System.Exception)    {
+    //     return null;
+    //     } 
+    // }
 
     private static void MainIntroDuction(){
         if(BackToMainMenu == false){
